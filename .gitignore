@@ -1,0 +1,19 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# env
+.env
+.env.local
+.env.*.local
+
+# claude code
+.claude/settings.local.json
