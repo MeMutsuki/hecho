@@ -1,9 +1,10 @@
 import { HabitForm } from './components/HabitForm';
 import { HabitList } from './components/HabitList';
+import { Timeline } from './components/Timeline';
 
 /**
- * v1 セッション 1: 習慣の登録と一覧表示だけ。
- * 記録（toggleLog）とタイムラインは後続セッションで足す。
+ * v1: 習慣の登録・今日の記録・横スクロールタイムライン。
+ * 遡り入力と頻度表示は後続セッションで足す。
  */
 export default function App() {
   return (
@@ -21,6 +22,11 @@ export default function App() {
       <section className="panel">
         <h2 className="panel__title">登録済みの習慣</h2>
         <HabitList />
+      </section>
+
+      <section className="panel">
+        <h2 className="panel__title">タイムライン</h2>
+        <Timeline />
       </section>
     </main>
   );

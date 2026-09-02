@@ -229,3 +229,104 @@ body {
 .habit-list__name {
   font-size: 0.9375rem;
 }
+
+/* 横スクロールのタイムライン */
+.timeline {
+  --tl-label-w: 8.5rem;
+  --tl-cell-w: 2rem;
+  --tl-row-h: 2.5rem;
+
+  overflow-x: auto;
+  /* パネルの内側パディングいっぱいまで使いたいので左右に食い込ませる */
+  margin: 0 -1.25rem;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.timeline__grid {
+  display: grid;
+  /* grid-template-columns は列数が可変なのでインラインで指定する */
+  width: max-content;
+}
+
+/* 左端ラベル列 = sticky で固定。ヘッダ行 = sticky で上に固定。 */
+.timeline__corner,
+.timeline__label {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--surface);
+}
+
+.timeline__corner {
+  z-index: 3;
+  border-bottom: 1px solid var(--border);
+}
+
+.timeline__head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--tl-row-h);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  border-bottom: 1px solid var(--border);
+}
+
+.timeline__head.is-today {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.timeline__label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: var(--tl-row-h);
+  padding-left: 1.25rem;
+  padding-right: 0.5rem;
+  /* セルとの境目。右に細い区切りを出してスクロール中も列頭が分かるように */
+  box-shadow: 1px 0 0 var(--border);
+}
+
+.timeline__dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.timeline__emoji {
+  font-size: 1rem;
+}
+
+.timeline__name {
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timeline__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--tl-row-h);
+  border-bottom: 1px solid var(--border);
+}
+
+/* 今日の列だけうっすら手がかりを出す。「やっていない」の強調ではなく現在位置の目印。 */
+.timeline__cell.is-today {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.timeline__mark {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+}
