@@ -4,6 +4,10 @@
 
 `hecho` はスペイン語で「done」。
 
+**https://hecho-theta.vercel.app/**
+
+iPhone / Android のホーム画面に追加すると、アプリとして起動します。
+
 ## なぜ作ったか
 
 繰り返し発生する物事（風呂・洗濯・ゴミ出し・課題・自主学習）は、
