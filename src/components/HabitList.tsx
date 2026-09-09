@@ -23,13 +23,10 @@ export function HabitList() {
   );
 
   // 今日の分だけ購読して、どの行が記録済みかを判定する
-  const doneToday = useLiveQuery(
-    async () => {
-      const logs = await db.logs.where('date').equals(today).toArray();
-      return new Set(logs.map((l) => l.habitId));
-    },
-    [today],
-  );
+  const doneToday = useLiveQuery(async () => {
+    const logs = await db.logs.where('date').equals(today).toArray();
+    return new Set(logs.map((l) => l.habitId));
+  }, [today]);
 
   if (habits === undefined || doneToday === undefined) return null;
 
@@ -49,7 +46,11 @@ export function HabitList() {
               aria-pressed={done}
               onClick={() => toggleLog(h.id, today)}
             >
-              <span className="habit-list__dot" style={{ background: h.color }} aria-hidden="true" />
+              <span
+                className="habit-list__dot"
+                style={{ background: h.color }}
+                aria-hidden="true"
+              />
               <span className="habit-list__emoji">{h.emoji}</span>
               <span className="habit-list__name">{h.name}</span>
               <span className="habit-row__mark" aria-hidden="true">

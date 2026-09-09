@@ -232,9 +232,10 @@ body {
 
 /* 横スクロールのタイムライン */
 .timeline {
-  --tl-label-w: 8.5rem;
+  --tl-label-w: 10.5rem;
   --tl-cell-w: 2rem;
-  --tl-row-h: 2.5rem;
+  /* 左ラベルは名前＋「直近30日で N 回」の 2 行。ヘッダも同じ高さで揃える。 */
+  --tl-row-h: 3.25rem;
 
   overflow-x: auto;
   /* パネルの内側パディングいっぱいまで使いたいので左右に食い込ませる */
@@ -303,6 +304,14 @@ body {
 
 .timeline__emoji {
   font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.timeline__labeltext {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
 }
 
 .timeline__name {
@@ -310,6 +319,19 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* 「直近30日で N 回」。累積の頻度がこの行の主役なので名前の直下に添える。 */
+.timeline__freq {
+  font-size: 0.6875rem;
+  color: var(--muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline__freq strong {
+  color: var(--text);
+  font-weight: 600;
 }
 
 .timeline__cell {
