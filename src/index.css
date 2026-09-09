@@ -232,9 +232,11 @@ body {
 
 /* 横スクロールのタイムライン */
 .timeline {
-  --tl-label-w: 10.5rem;
-  --tl-cell-w: 2rem;
-  /* 左ラベルは名前＋「直近30日で N 回」の 2 行。ヘッダも同じ高さで揃える。 */
+  /* iPhone 幅でも 1 画面に日数を多く入れたいので、ラベル列とセルを詰める。
+     ラベルは 116px 固定、セルは 24px。 */
+  --tl-label-w: 116px;
+  --tl-cell-w: 24px;
+  /* 左ラベルは名前と回数を 1 行に収める。ヘッダも同じ高さで揃える。 */
   --tl-row-h: 3.25rem;
 
   overflow-x: auto;
@@ -261,7 +263,18 @@ body {
 
 .timeline__corner {
   z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
   border-bottom: 1px solid var(--border);
+}
+
+/* 集計期間の見出し。各行に「直近30日で」と繰り返す代わりに、ここで 1 回だけ出す。 */
+.timeline__corner::after {
+  content: '直近30日';
+  color: var(--muted);
+  font-size: 0.6875rem;
 }
 
 .timeline__head {
@@ -295,11 +308,9 @@ body {
   box-shadow: 1px 0 0 var(--border);
 }
 
+/* 左端の色ドットは絵文字と役割が重複するので出さない。色はお団子側で見える。 */
 .timeline__dot {
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 50%;
-  flex-shrink: 0;
+  display: none;
 }
 
 .timeline__emoji {
@@ -309,9 +320,11 @@ body {
 
 .timeline__labeltext {
   display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.3rem;
   min-width: 0;
+  flex: 1;
 }
 
 .timeline__name {
@@ -319,19 +332,23 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1;
 }
 
-/* 「直近30日で N 回」。累積の頻度がこの行の主役なので名前の直下に添える。 */
+/* 直近 30 日の記録回数。名前の右に数字だけ添える。
+   「直近30日で」「回」の文言は font-size:0 で畳んで、見出し側（.timeline__corner）に集約する。 */
 .timeline__freq {
-  font-size: 0.6875rem;
+  font-size: 0;
   color: var(--muted);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
 }
 
 .timeline__freq strong {
   color: var(--text);
   font-weight: 600;
+  font-size: 0.8125rem;
 }
 
 .timeline__cell {
@@ -366,7 +383,7 @@ body {
 }
 
 .timeline__mark {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
 }
