@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db, logId } from '../db/db';
+import { db, logId, toggleLog } from '../db/db';
 import { recentDateKeys, shortLabel, todayKey } from '../lib/date';
 
 /** タイムラインに映す日数。直近この日数ぶんを右端＝今日で並べる。 */
@@ -15,7 +15,9 @@ const DAYS = 30;
  *
  * やっていない日は空セルのまま。× も薄いプレースホルダも置かない
  * （「やっていない」を強調しないのがこのアプリの方針）。
- * セルのタップによる遡り入力はまだ作らない。
+ * セルをタップすると toggleLog が走り、過去日にも遡って記録できる。
+ * 今日より先の日付は表示範囲に含まれないが、念のためボタン自体も disabled にして
+ * 「date に未来日を入れない」という制約をタイムライン側でも守る。
  */
 export function Timeline() {
   const dates = recentDateKeys(DAYS);
@@ -76,10 +78,15 @@ export function Timeline() {
           <Row key={h.id} emoji={h.emoji} name={h.name} color={h.color}>
             {dates.map((d) => {
               const done = doneKeys.has(logId(h.id, d));
+              const isFuture = d > today;
               return (
-                <div
+                <button
                   key={d}
+                  type="button"
                   className={'timeline__cell' + (d === today ? ' is-today' : '')}
+                  aria-pressed={done}
+                  disabled={isFuture}
+                  onClick={() => toggleLog(h.id, d)}
                 >
                   {done && (
                     <span
@@ -88,7 +95,7 @@ export function Timeline() {
                       aria-hidden="true"
                     />
                   )}
-                </div>
+                </button>
               );
             })}
           </Row>

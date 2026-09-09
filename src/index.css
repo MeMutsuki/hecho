@@ -317,12 +317,30 @@ body {
   align-items: center;
   justify-content: center;
   height: var(--tl-row-h);
+  border: none;
   border-bottom: 1px solid var(--border);
+  padding: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.timeline__cell:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+/* 未来日はタップ不可。「date に未来日を入れない」という制約を見た目にも反映する */
+.timeline__cell:disabled {
+  cursor: default;
 }
 
 /* 今日の列だけうっすら手がかりを出す。「やっていない」の強調ではなく現在位置の目印。 */
 .timeline__cell.is-today {
   background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.timeline__cell.is-today:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
 .timeline__mark {
