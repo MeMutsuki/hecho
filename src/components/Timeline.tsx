@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, logId, toggleLog } from '../db/db';
-import { recentDateKeys, shortLabel, todayKey } from '../lib/date';
+import { recentDateKeys, shortLabel } from '../lib/date';
+import { useToday } from '../lib/useToday';
 
 /** タイムラインに映す日数。直近この日数ぶんを右端＝今日で並べる。 */
 const DAYS = 30;
@@ -24,8 +25,10 @@ const DAYS = 30;
  * 連続日数（ストリーク）は出さない。主役は累積の頻度。
  */
 export function Timeline() {
-  const dates = recentDateKeys(DAYS);
-  const today = todayKey();
+  // 深夜0時をまたいでも新しい日付を見るように、フック経由で「今日」を取る。
+  // 列の並びも today を起点に組み直す。
+  const today = useToday();
+  const dates = recentDateKeys(DAYS, today);
 
   const habits = useLiveQuery(
     () =>

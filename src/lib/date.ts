@@ -25,10 +25,13 @@ export function addDays(key: string, n: number): string {
   return toDateKey(d);
 }
 
-/** 古い順の日付キー配列を返す。最後の要素が今日。 */
-export function recentDateKeys(days: number): string[] {
-  const today = todayKey();
-  return Array.from({ length: days }, (_, i) => addDays(today, i - days + 1));
+/**
+ * 古い順の日付キー配列を返す。最後の要素が end（既定は今日）。
+ * end を明示で受け取れるのは、深夜0時をまたいで「今日」が変わったとき
+ * 呼び出し側が持っている新しいキーで並べ直せるようにするため。
+ */
+export function recentDateKeys(days: number, end: string = todayKey()): string[] {
+  return Array.from({ length: days }, (_, i) => addDays(end, i - days + 1));
 }
 
 /** タイムラインのヘッダ用。'9/2' の形。 */

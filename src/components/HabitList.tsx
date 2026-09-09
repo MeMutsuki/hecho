@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, toggleLog } from '../db/db';
-import { todayKey } from '../lib/date';
+import { useToday } from '../lib/useToday';
 
 /**
  * 登録済みの習慣を order 順に並べる。
@@ -11,7 +11,8 @@ import { todayKey } from '../lib/date';
  * 遡り入力とタイムラインはまだ作らない。
  */
 export function HabitList() {
-  const today = todayKey();
+  // 深夜0時をまたいでも新しい日付を見るように、フック経由で「今日」を取る
+  const today = useToday();
 
   const habits = useLiveQuery(
     () =>
