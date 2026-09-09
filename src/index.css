@@ -117,7 +117,8 @@ body {
   width: 100%;
 }
 
-.habit-form input {
+.habit-form input,
+.habit-edit input {
   appearance: none;
   border: 1px solid var(--border);
   background: var(--bg);
@@ -128,7 +129,8 @@ body {
   border-radius: 10px;
 }
 
-.habit-form input:focus {
+.habit-form input:focus,
+.habit-edit input:focus {
   outline: none;
   border-color: var(--accent);
 }
@@ -179,6 +181,83 @@ body {
 
 .habit-list__item:last-child {
   border-bottom: none;
+}
+
+/* 記録ボタンと「編集」を横に並べる。stretch で編集ボタンも行の高さいっぱいに取る。 */
+.habit-list__row {
+  display: flex;
+  align-items: stretch;
+}
+
+.habit-list__row .habit-row {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 編集導線。記録ボタンの誤タップを避けたいので控えめに、でもタップ域は行の高さぶん確保する。 */
+.habit-list__edit {
+  appearance: none;
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.8125rem;
+  padding: 0 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.habit-list__edit:active {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* 名前・絵文字の編集フォーム。行と同じ左右パディングに合わせる。 */
+.habit-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 0.75rem 0.5rem;
+}
+
+.habit-edit__row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.habit-edit__emoji {
+  width: 3rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.habit-edit__name {
+  flex: 1;
+  min-width: 0;
+}
+
+.habit-edit__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* アーカイブは戻す導線がまだ無い操作なので、保存/キャンセルから離して右端に置く。 */
+.habit-edit__archive {
+  appearance: none;
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.8125rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.habit-edit__archive:active {
+  color: var(--text);
 }
 
 /* 行そのものが「今日やった」の記録ボタン */

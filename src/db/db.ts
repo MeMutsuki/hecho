@@ -47,6 +47,25 @@ export async function addHabit(input: {
   return id;
 }
 
+/**
+ * 名前と絵文字を編集する。色・order・createdAt は据え置き。
+ * logs は habitId で紐づくので、名前を直しても過去の記録はそのまま残る。
+ */
+export async function updateHabit(
+  id: string,
+  input: { name: string; emoji: string },
+): Promise<void> {
+  await db.habits.update(id, { name: input.name, emoji: input.emoji });
+}
+
+/**
+ * 習慣をアーカイブする。archivedAt を立てると一覧とタイムラインから外れる。
+ * 削除ではないので logs は消さない。アーカイブ済みを表示に戻す切り替えは v1 では作らない（FUTURE.md）。
+ */
+export async function archiveHabit(id: string): Promise<void> {
+  await db.habits.update(id, { archivedAt: new Date().toISOString() });
+}
+
 /** 記録をつける / 取り消す。同じ日に二重には入らない。 */
 export async function toggleLog(habitId: string, date: string): Promise<void> {
   const id = logId(habitId, date);
